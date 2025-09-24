@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Gallery</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="Images/favicon.ico" type="image/png">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <img src="/Images/favicon.ico" alt="Internet Gallery Logo" class="logo">
+                <h1>Internet Gallery</h1>
+            </div>
+            <div class="search-container">
+                <input type="text" id="media-search" placeholder="Search all media...">
+                <button class="clear-search-btn" id="clear-search-btn" style="display: none;">&times;</button>
+            </div>
+            <div class="media-toggles">
+                <button class="toggle-btn" data-target="images">Images</button>
+                <button class="toggle-btn" data-target="audio">Audio</button>
+                <button class="toggle-btn" data-target="video">Video</button>
+                <button class="toggle-btn" data-target="pdf">Books</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="collage" class="container">
+             <h2>Watch From Across The Internet</h2>
+             <div id="media-collage-grid" class="collage-grid">
+                <p class="collage-loader">Curating your random preview...</p>
+             </div>
+        </section>
+
+        <section id="upload-section" class="container">
+            <h2>Upload Your Media</h2>
+            <div class="upload-container">
+                <input type="file" id="media-upload" accept="image/*,audio/*,video/*,.pdf" multiple>
+                <label for="media-upload" class="upload-btn">Choose Files</label>
+            </div>
+        </section>
+
+         <section id="gallery" class="container">
+            <!-- UPDATED STRUCTURE FOR EACH CATEGORY -->
+            <div id="images" class="media-category">
+                <div class="gallery-header">
+                    <h2>Images</h2>
+                    <!-- ADDED NAVIGATION BUTTONS -->
+                    <div class="navigation-buttons">
+                        <button class="scroll-btn scroll-to-top-btn" title="Scroll to First Row">↑</button>
+                        <button class="scroll-btn scroll-to-bottom-btn" title="Scroll to Last Row">↓</button>
+                    </div>
+                    <div class="filter-bar">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="uploaded">Your Media</button>
+                    </div>
+                </div>
+                <div class="media-grid image-grid"></div>
+                <div class="loading-indicator">Loading More Images...</div>
+            </div>
+
+            <div id="audio" class="media-category">
+                 <div class="gallery-header">
+                    <h2>Audio</h2>
+                    <div class="navigation-buttons">
+                        <button class="scroll-btn scroll-to-top-btn" title="Scroll to First Row">↑</button>
+                        <button class="scroll-btn scroll-to-bottom-btn" title="Scroll to Last Row">↓</button>
+                    </div>
+                    <div class="filter-bar">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="uploaded">Your Media</button>
+                    </div>
+                </div>
+                <div class="media-grid audio-grid"></div>
+                <div class="loading-indicator">Loading More Audio...</div>
+            </div>
+
+            <div id="video" class="media-category">
+                 <div class="gallery-header">
+                    <h2>Video</h2>
+                    <!-- ADDED NAVIGATION BUTTONS -->
+                    <div class="navigation-buttons">
+                        <button class="scroll-btn scroll-to-top-btn" title="Scroll to First Row">↑</button>
+                        <button class="scroll-btn scroll-to-bottom-btn" title="Scroll to Last Row">↓</button>
+                    </div>
+                    <div class="filter-bar">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="uploaded">Your Media</button>
+                    </div>
+                </div>
+                <div class="media-grid video-grid"></div>
+                <div class="loading-indicator">Loading More Videos...</div>
+            </div>
+
+            <div id="pdf" class="media-category">
+                 <div class="gallery-header">
+                    <h2>Books</h2>
+                    <!-- ADDED NAVIGATION BUTTONS -->
+                    <div class="navigation-buttons">
+                        <button class="scroll-btn scroll-to-top-btn" title="Scroll to First Row">↑</button>
+                        <button class="scroll-btn scroll-to-bottom-btn" title="Scroll to Last Row">↓</button>
+                    </div>
+                    <div class="filter-bar">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="uploaded">Your Media</button>
+                    </div>
+                </div>
+                <div class="media-grid pdf-grid"></div>
+                <div class="loading-indicator">Loading More Books...</div>
+            </div>
+        </section>
+
+        <div id="modal" class="modal">
+            <span class="close-btn">&times;</span>
+            <div class="modal-content">
+                <img id="modal-image" src="" alt="Modal Image">
+                <div id="modal-caption"></div>
+            </div>
+        </div>
+
+        <div id="audio-modal" class="modal">
+            <span class="close-btn">&times;</span>
+            <div id="audio-modal-content" class="modal-content audio-modal-content">
+                <!-- Content will be injected by JavaScript -->
+            </div>
+        </div>
+
+        <!-- NEW BOOK MODAL -->
+        <div id="book-modal" class="modal">
+            <span class="close-btn">&times;</span>
+            <div id="book-modal-content" class="modal-content book-modal-content">
+                <!-- Book details will be injected by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

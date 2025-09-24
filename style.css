@@ -1,0 +1,1119 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    --primary-color: #002244;
+    --secondary-color: #f4f4f4;
+    --text-color: #333;
+    --light-text-color: #fff;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+header {
+    background: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 50px;
+    margin-right: 15px;
+    border-radius: 2px;
+}
+
+header h1 {
+    font-size: 1.8rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav a {
+    color: var(--light-text-color);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #a7c7e7;
+}
+
+main {
+    padding: 2rem 0;
+}
+
+#upload-section {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.upload-container {
+    margin-top: 1rem;
+}
+
+#media-upload {
+    display: none;
+}
+
+.upload-btn {
+    background: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 12px 25px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.upload-btn:hover {
+    background: #003366;
+}
+
+
+/* --- MODIFY THIS EXISTING RULE --- */
+.media-category {
+    margin-bottom: 3rem;
+    display: none; /* Hide all categories by default */
+}
+
+
+.gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap; /* CRITICAL: Prevents the filter bar from wrapping to a new line */
+    gap: 1.5rem;       /* Adds some space between the title and the filters */
+    border-bottom: 3px solid var(--primary-color);
+    margin-bottom: 1.5rem;
+    padding: 0 10px;
+}
+
+.navigation-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto; /* Pushes the buttons to the far right */
+    padding-bottom: 10px; /* Aligns with filter bar and h2 padding */
+    flex-shrink: 0; /* Prevents buttons from shrinking */
+}
+
+
+.scroll-btn {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    opacity: 0; /* Hidden by default, shown by JS */
+    visibility: hidden; /* Hidden by default */
+    transform: scale(0.8);
+    transition: all 0.2s ease-in-out;
+}
+
+.scroll-btn.visible {
+    opacity: 0.8;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.scroll-btn:hover {
+    background-color: #003366; /* A slightly lighter shade */
+    transform: scale(1.1);
+}
+
+.media-category.active {
+    display: block; /* Only show the active category */
+    /* NEW: Ensures the section fills the screen even when empty, allowing h2 to stick */
+    min-height: 80vh; 
+}
+
+.media-category.active .gallery-header {
+    position: sticky;
+    top: var(--sticky-top-offset, 75px); 
+    background-color: var(--secondary-color);
+    z-index: 999;
+    padding-top: 1rem;
+}
+
+
+.media-category h2 {
+    padding-bottom: 10px;
+    flex-shrink: 0; /* Prevents the title from shrinking when filters are added */
+    white-space: nowrap; /* Ensures the title itself doesn't wrap */
+}
+
+.filter-bar {
+    display: flex;
+    gap: 0.75rem;
+    padding-bottom: 10px;
+    overflow-x: auto;   /* Allows horizontal scrolling */
+    min-width: 0;       /* A key fix for flexbox overflow issues */
+    
+    /* CRITICAL: Hides the scrollbar across all major browsers */
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+}
+
+
+
+.filter-btn-wrapper {
+    position: relative;
+    display: inline-flex; /* Ensures the wrapper is only as wide as its content */
+    align-items: center;
+}
+
+
+.filter-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-btn {
+    background-color: #e0e0e0;
+    color: var(--text-color);
+    border: 1px solid #ccc;
+    padding: 6px 14px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap; /* Prevent filter names from breaking */
+    font-size: 0.85rem;
+}
+
+.filter-btn[data-filter-type="search"] {
+    padding-right: 28px;
+}
+
+.filter-btn:hover {
+    background-color: #d1d1d1;
+    border-color: #bbb;
+}
+
+.filter-btn.active {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    border-color: var(--primary-color);
+}
+
+
+/* NEW: Style for the delete button on a filter */
+.filter-delete-btn {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.2);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    line-height: 1;
+    transition: background-color 0.2s ease;
+    z-index: 2; /* Ensures it's on top of the button text */
+}
+
+.filter-delete-btn:hover {
+    background: rgba(255, 0, 0, 0.8);
+}
+
+
+
+
+
+
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.media-item {
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.media-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.media-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.media-item video {
+    width: 100%;
+    height: 100%; /* Make video fill the container height */
+    object-fit: cover; /* Ensures video covers the area without distortion */
+    background-color: #000; /* Black background for letterboxing if needed */
+}
+
+.collage-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.media-item audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.audio-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.audio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.audio-card-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background-color: #e0e0e0;
+}
+
+.audio-card-info {
+    padding: 1rem;
+    flex-grow: 1;
+}
+
+.audio-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.audio-card-artist {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0 0 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Custom Audio Player Controls */
+.audio-player-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.play-pause-btn {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.play-pause-btn img {
+    width: 45%; /* Adjust this percentage to make the icon larger or smaller */
+    height: 45%;
+    display: block;
+}
+
+.play-pause-btn:hover {
+    background-color: #003366;
+}
+
+.progress-bar-container {
+    flex-grow: 1;
+    background-color: #e0e0e0;
+    height: 6px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.progress-bar {
+    background-color: var(--primary-color);
+    width: 0;
+    height: 100%;
+    border-radius: 3px;
+}
+
+/* Audio Modal Styles */
+.audio-modal-content {
+    background: #fff;
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+}
+
+.audio-modal-content .audio-card-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    max-height: 300px;
+    margin: 0 auto 1rem;
+    border-radius: var(--border-radius);
+}
+
+.audio-modal-content .audio-card-title {
+    font-size: 1.8rem;
+    white-space: normal; /* Allow title to wrap */
+}
+
+.audio-modal-content .audio-card-artist {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+
+.media-item .pdf-icon {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5rem;
+    background: #eee;
+}
+
+.media-item .pdf-link {
+    display: block;
+    padding: 1rem;
+    text-align: center;
+    background: var(--primary-color);
+    color: var(--light-text-color);
+    text-decoration: none;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10; /* Ensure delete button is above other content in collage */
+}
+
+.media-item:hover .delete-btn {
+    opacity: 1;
+}
+
+.modal {
+    /* Initially, the modal is completely hidden */
+    display: none; 
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+    padding: 1rem;
+}
+
+.modal.active {
+    /* Use Flexbox to perfectly center the content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90vh;
+}
+
+
+#modal-image {
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+    display: block;
+}
+
+
+/* NEW: Styles for the image caption overlay */
+#modal-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    color: #f1f1f1;
+    text-align: center;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: 300;
+    box-sizing: border-box;
+    transition: opacity 0.3s ease;
+    opacity: 1; 
+}
+
+
+/* --- RESPONSIVE ADJUSTMENTS FOR MODAL CAPTION --- */
+@media (max-width: 768px) {
+    #modal-caption {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+footer {
+    background: var(--primary-color);
+    color: var(--light-text-color);
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: 2rem;
+}
+
+
+
+/* --- NEW COLLAGE STYLES --- */
+
+#collage {
+    margin-bottom: 2rem; /* Adds space between collage and upload section */
+}
+
+#collage h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.collage-loader {
+    grid-column: 1 / -1; /* Makes the loader span the full grid width */
+    text-align: center;
+    font-style: italic;
+    color: #555;
+}
+
+
+.collage-grid {
+    display: grid;
+    /* This creates a fluid grid. Adjust values as needed. */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-auto-rows: minmax(150px, auto); /* Allows rows to grow as needed */
+    gap: 1.5rem; /* Gap between grid items */
+    position: relative; /* For z-index to work with overlapping */
+    padding: 20px;
+    background-color: #e0e0e0; /* Light background for the collage area */
+    border-radius: var(--border-radius);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.collage-item {
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    position: relative; /* For absolute positioning of delete button and rotation */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 10px; /* Padding inside the collage item */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1; /* Default z-index */
+    border: 1px solid #ddd;
+}
+
+.collage-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    z-index: 5; /* Bring hovered item to front */
+}
+
+.collage-item img,
+.collage-item video,
+.collage-item iframe {
+    width: 100%;
+    max-height: 150px; /* Constrain height for collage items */
+    object-fit: contain; /* Ensure content fits without cropping too much */
+    display: block;
+    background-color: #f0f0f0; /* Background for media within collage item */
+    border-radius: 5px;
+}
+
+.collage-item audio {
+    width: 100%;
+    margin-top: 5px;
+    height: 30px; /* Smaller audio player */
+}
+
+.collage-item .pdf-icon,
+.collage-item .book-details {
+    width: 100%;
+    height: auto;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem; /* Smaller icon for collage */
+    background: #eee;
+    padding: 10px;
+    text-align: center;
+}
+
+.collage-item .pdf-link,
+.collage-item .book-details span {
+    font-size: 0.8rem;
+    margin-top: 5px;
+    word-break: break-word;
+    white-space: normal;
+}
+
+/* Random rotations for collage effect */
+.collage-item:nth-child(even) {
+    transform: rotate(2deg) translateY(5px);
+}
+.collage-item:nth-child(odd) {
+    transform: rotate(-3deg) translateY(-5px);
+}
+.collage-item:nth-child(3n) {
+    transform: rotate(1deg) translateX(5px);
+}
+.collage-item:nth-child(4n) {
+    transform: rotate(-4deg) translateX(-5px);
+}
+.collage-item:nth-child(5n) {
+    transform: rotate(3deg) translateY(10px);
+}
+
+/* Adjust delete button for collage items */
+.collage-item .delete-btn {
+    opacity: 1; /* Always show delete button in collage for better UX */
+    background: rgba(255, 0, 0, 0.7); /* Red for better visibility */
+    z-index: 10; /* Ensure it's on top */
+}
+
+
+
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+
+    
+}
+
+.loading-indicator {
+    display: none; /* Hūnā ʻia ma ka paʻamau */
+    text-align: center;
+    padding: 1rem;
+    font-weight: bold;
+    /* Make the indicator more visible at the bottom of the page */
+    width: 100%;
+    margin: 2rem 0;
+}
+
+
+
+
+.media-toggles {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+    justify-content: center;
+}
+
+
+.toggle-btn {
+    background-color: transparent;
+    color: var(--light-text-color);
+    border: 2px solid var(--light-text-color);
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.toggle-btn:hover {
+    background-color: #a7c7e7;
+    color: var(--primary-color);
+}
+
+.toggle-btn.active {
+    background-color: var(--light-text-color);
+    color: var(--primary-color);
+}
+
+
+/* --- MODIFY THIS EXISTING RULE --- */
+.media-category {
+    margin-bottom: 3rem;
+    display: none; /* Hide all categories by default */
+}
+
+/* --- ADD THIS NEW RULE --- */
+.media-category.active {
+    display: block; /* Only show the active category */
+}
+
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 0 2rem;
+    position: relative; /* CRITICAL: Needed to position the clear button inside */
+    align-items: center;
+}
+
+#media-search {
+    width: 100%;
+    max-width: 450px;
+    /* UPDATED: Added more padding on the right to make space for the button */
+    padding: 8px 32px 8px 16px; 
+    font-size: 0.9rem;
+    border-radius: var(--border-radius);
+    border: 2px solid #5a6d80;
+    background-color: #f4f4f4;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+#media-search::placeholder {
+    color: #666;
+}
+
+#media-search:focus {
+    outline: none;
+    border-color: #a7c7e7; /* A lighter blue on focus */
+    box-shadow: 0 0 8px rgba(167, 199, 231, 0.5);
+}
+
+
+/* --- NEW STYLES FOR THE CLEAR SEARCH BUTTON --- */
+.clear-search-btn {
+    position: absolute;
+    right: 10px; /* Adjust as needed based on search-container padding */
+    top: 50%;
+    transform: translateY(-50%);
+    background: #999;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.clear-search-btn:hover {
+    background-color: #777;
+    transform: translateY(-50%) scale(1.1);
+}
+
+
+/* --- NEW BOOK CARD STYLES --- */
+.book-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.book-card-image {
+    width: 100%;
+    height: 250px; /* Taller image for books */
+    object-fit: cover; /* Use cover to fill the space nicely */
+    background-color: #e0e0e0;
+}
+
+.book-card-info {
+    padding: 1rem;
+    flex-grow: 1; /* Allows info to fill remaining space */
+    display: flex;
+    flex-direction: column;
+}
+
+.book-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+    /* Allow for two lines of text before truncating */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 2.5em; /* Approximate height for 2 lines */
+}
+
+.book-card-author {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* --- NEW BOOK MODAL STYLES --- */
+.book-modal-content {
+    background: #fff;
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    max-width: 800px; /* Wider modal to accommodate the description */
+    width: 90%;
+    display: flex;
+    flex-direction: row; /* Side-by-side on desktop */
+    gap: 2rem;
+    align-items: flex-start; /* Align content to the top */
+    text-align: left;
+    max-height: 90vh; /* Prevent modal from becoming too tall */
+    overflow-y: auto; /* Allow the modal itself to scroll if needed */
+}
+
+/* This rule is updated for the new layout */
+.book-modal-image {
+    width: 250px;
+    height: auto;
+    flex-shrink: 0; /* Prevents the image from shrinking */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+/* NEW: Wrapper for all text content */
+.book-modal-text-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Allows this section to fill the remaining space */
+}
+
+/* This rule is updated for the new layout */
+.book-modal-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+}
+
+/* This rule is updated for the new layout */
+.book-modal-author {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 0 0 1.5rem;
+}
+
+/* NEW: Container for the description for scrolling */
+.book-modal-description-container {
+    margin-bottom: 1.5rem;
+    max-height: 250px; /* Sets a max height, making it scrollable if text overflows */
+    overflow-y: auto;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 1rem 0;
+}
+
+/* NEW: Styles for the description text itself */
+.book-modal-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* This rule is updated to align the button properly */
+.read-btn {
+    display: inline-block;
+    background: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 12px 30px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+    align-self: flex-start; /* Aligns button to the left in the new flex layout */
+}
+
+.read-btn:hover {
+    background: #003366;
+    transform: scale(1.05);
+}
+
+
+
+@media (max-width: 768px) {
+    .book-modal-content {
+        flex-direction: column; /* Stack image and text on smaller screens */
+        align-items: center;   /* Center items when stacked */
+        text-align: center;    /* Center-align the text */
+    }
+
+    .book-modal-image {
+        width: 100%;
+        max-width: 200px; /* Control image size on mobile */
+    }
+
+    .book-modal-text-content {
+        align-items: center; /* Center the title, author, and button */
+    }
+
+    .book-modal-description-container {
+        text-align: left; /* Keep description text left-aligned for readability */
+    }
+
+    .read-btn {
+        align-self: center; /* Center the button on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .book-modal-title {
+        font-size: 1.5rem;
+    }
+
+    .book-modal-author {
+        font-size: 1rem;
+    }
+
+    .read-btn {
+        padding: 10px 25px;
+        font-size: 1rem;
+    }
+}
+
+
+
+/* Responsive adjustment for the clear button's position */
+@media (min-width: 769px) {
+    .clear-search-btn {
+        /* Adjust the right position relative to the max-width of the input */
+        right: calc(50% - 200px); 
+    }
+}
+
+
+/* --- RESPONSIVE ADJUSTMENTS FOR THE SEARCH BAR --- */
+
+/* For tablets, where the header begins to stack */
+@media (max-width: 768px) {
+    .search-container {
+        /* The container takes full width in a column layout */
+        width: 100%;
+        /* Remove horizontal padding to use the full width */
+        padding: 0;
+        /* The header's `gap` property will handle vertical spacing */
+        flex-grow: 0;
+    }
+
+    #media-search {
+        /* Allow the search bar to be a bit wider on tablets */
+        max-width: 500px;
+    }
+}
+
+/* For small mobile phones */
+@media (max-width: 480px) {
+    .search-container {
+       /* Add a small amount of vertical margin for spacing on very small screens */
+       margin-top: 0.5rem;
+    }
+    
+    #media-search {
+        /* Further reduce font size and padding for compact mobile screens */
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+}
+
+/* Existing styles below... */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    --primary-color: #002244;
+    /* ... (rest of your CSS is the same) ... */
+}
+
+/* Add this to your responsive section for better button layout on mobile */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .media-toggles {
+        margin-top: 1rem;
+    }
+    /* ... (rest of media queries) ... */
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+    }
+
+    nav ul {
+        margin-top: 1rem;
+    }
+
+    .media-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .collage-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        padding: 10px;
+    }
+
+    .collage-item img,
+    .collage-item video,
+    .collage-item iframe {
+        max-height: 120px;
+    }
+}
+
+@media (max-width: 480px) {
+    .media-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .collage-grid {
+        grid-template-columns: 1fr; /* Stack items on very small screens */
+        gap: 0.8rem;
+        padding: 5px;
+    }
+
+    .collage-item img,
+    .collage-item video,
+    .collage-item iframe {
+        max-height: 100px;
+    }
+
+    .collage-item .pdf-icon {
+        font-size: 2rem;
+    }
+    .collage-item .pdf-link,
+    .collage-item .book-details span {
+        font-size: 0.7rem;
+    }
+}
