@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Standard meta tags for character set and responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- The title of the webpage, displayed in the browser tab -->
     <title>Internet Gallery</title>
+
+    <!-- Link to the external CSS file for styling -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Link to the favicon (the little icon in the browser tab) -->
     <link rel="icon" href="Images/favicon.ico" type="image/png">
 </head>
+
 <body>
+
+    <!-- =================================================================
+    HEADER SECTION
+    Contains the logo, title, search bar, and media type toggles.
+    It remains sticky at the top of the page.
+    ================================================================== -->
     <header>
         <div class="container">
+            <!-- Logo and main title -->
             <div class="logo-container">
                 <img src="/Images/favicon.ico" alt="Internet Gallery Logo" class="logo">
                 <h1>Internet Gallery</h1>
             </div>
+
+            <!-- Search input field and a clear button -->
             <div class="search-container">
                 <input type="text" id="media-search" placeholder="Search all media...">
                 <button class="clear-search-btn" id="clear-search-btn" style="display: none;">&times;</button>
             </div>
+
+            <!-- Buttons to toggle between different media categories -->
             <div class="media-toggles">
                 <button class="toggle-btn" data-target="images">Images</button>
                 <button class="toggle-btn" data-target="audio">Audio</button>
@@ -27,43 +47,62 @@
         </div>
     </header>
 
+    <!-- =================================================================
+    MAIN CONTENT AREA
+    All primary content of the page resides here.
+    ================================================================== -->
     <main>
+
+        <!-- RANDOM COLLAGE PREVIEW SECTION -->
         <section id="collage" class="container">
-             <h2>Watch From Across The Internet</h2>
-             <div id="media-collage-grid" class="collage-grid">
+            <h2>Watch From Across The Internet</h2>
+            <!-- This grid is populated by JavaScript with a random assortment of media on page load -->
+            <div id="media-collage-grid" class="collage-grid">
                 <p class="collage-loader">Curating your random preview...</p>
-             </div>
+            </div>
         </section>
 
+        <!-- FILE UPLOAD SECTION -->
         <section id="upload-section" class="container">
             <h2>Upload Your Media</h2>
             <div class="upload-container">
+                <!-- Hidden file input, triggered by the label acting as a button -->
                 <input type="file" id="media-upload" accept="image/*,audio/*,video/*,.pdf" multiple>
                 <label for="media-upload" class="upload-btn">Choose Files</label>
             </div>
         </section>
 
-         <section id="gallery" class="container">
-            <!-- UPDATED STRUCTURE FOR EACH CATEGORY -->
+        <!-- =================================================================
+        MAIN GALLERY SECTION
+        This section holds the containers for each media category. 
+        Only one category is visible at a time.
+        ================================================================== -->
+        <section id="gallery" class="container">
+
+            <!-- IMAGES CATEGORY -->
             <div id="images" class="media-category">
                 <div class="gallery-header">
                     <h2>Images</h2>
-                    <!-- ADDED NAVIGATION BUTTONS -->
+                    <!-- Scroll-to-top and scroll-to-bottom buttons for easy navigation -->
                     <div class="navigation-buttons">
                         <button class="scroll-btn scroll-to-top-btn" title="Scroll to First Row">↑</button>
                         <button class="scroll-btn scroll-to-bottom-btn" title="Scroll to Last Row">↓</button>
                     </div>
+                    <!-- Filter bar for showing all media vs. only uploaded media -->
                     <div class="filter-bar">
                         <button class="filter-btn active" data-filter="all">All</button>
                         <button class="filter-btn" data-filter="uploaded">Your Media</button>
                     </div>
                 </div>
+                <!-- The grid where image cards will be injected by JavaScript -->
                 <div class="media-grid image-grid"></div>
+                <!-- Indicator shown during API calls for infinite scroll -->
                 <div class="loading-indicator">Loading More Images...</div>
             </div>
 
+            <!-- AUDIO CATEGORY -->
             <div id="audio" class="media-category">
-                 <div class="gallery-header">
+                <div class="gallery-header">
                     <h2>Audio</h2>
                     <div class="navigation-buttons">
                         <button class="scroll-btn scroll-to-top-btn" title="Scroll to First Row">↑</button>
@@ -78,10 +117,10 @@
                 <div class="loading-indicator">Loading More Audio...</div>
             </div>
 
+            <!-- VIDEO CATEGORY -->
             <div id="video" class="media-category">
-                 <div class="gallery-header">
+                <div class="gallery-header">
                     <h2>Video</h2>
-                    <!-- ADDED NAVIGATION BUTTONS -->
                     <div class="navigation-buttons">
                         <button class="scroll-btn scroll-to-top-btn" title="Scroll to First Row">↑</button>
                         <button class="scroll-btn scroll-to-bottom-btn" title="Scroll to Last Row">↓</button>
@@ -95,10 +134,10 @@
                 <div class="loading-indicator">Loading More Videos...</div>
             </div>
 
+            <!-- BOOKS (PDF) CATEGORY -->
             <div id="pdf" class="media-category">
-                 <div class="gallery-header">
+                <div class="gallery-header">
                     <h2>Books</h2>
-                    <!-- ADDED NAVIGATION BUTTONS -->
                     <div class="navigation-buttons">
                         <button class="scroll-btn scroll-to-top-btn" title="Scroll to First Row">↑</button>
                         <button class="scroll-btn scroll-to-bottom-btn" title="Scroll to Last Row">↓</button>
@@ -113,6 +152,13 @@
             </div>
         </section>
 
+        <!-- =================================================================
+        MODALS SECTION
+        These are hidden overlay containers used to display media in a
+        larger, focused view. They are controlled entirely by JavaScript.
+        ================================================================== -->
+
+        <!-- Image Modal: Displays a larger version of an image -->
         <div id="modal" class="modal">
             <span class="close-btn">&times;</span>
             <div class="modal-content">
@@ -121,14 +167,15 @@
             </div>
         </div>
 
+        <!-- Audio Modal: Displays detailed info and player for an audio track -->
         <div id="audio-modal" class="modal">
             <span class="close-btn">&times;</span>
             <div id="audio-modal-content" class="modal-content audio-modal-content">
-                <!-- Content will be injected by JavaScript -->
+                <!-- Audio player content will be injected by JavaScript -->
             </div>
         </div>
 
-        <!-- NEW BOOK MODAL -->
+        <!-- Book Modal: Displays detailed info and a link to read a book -->
         <div id="book-modal" class="modal">
             <span class="close-btn">&times;</span>
             <div id="book-modal-content" class="modal-content book-modal-content">
@@ -137,6 +184,8 @@
         </div>
     </main>
 
+    <!-- Link to the main JavaScript file, placed at the end of the body for faster page load -->
     <script src="script.js"></script>
 </body>
+
 </html>
