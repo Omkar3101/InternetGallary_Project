@@ -37,5 +37,5 @@ https://internetgallaries.netlify.app/
 
 ## Let Connect
 
-(Linkedin)[www.linkedin.com/in/omkar3101]
+[Linkedin](www.linkedin.com/in/omkar3101)
 
