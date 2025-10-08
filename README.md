@@ -29,7 +29,7 @@ A simple, responsive Internet Gallery built using only frontend technologies to 
 
 ## License
 
-This project is licensed under the MIT License – see the LICENSE file for details.
+This project is licensed under the MIT License – see the [LICENSE](https://github.com/Omkar3101/InternetGallary_Project/blob/main/LICENSE) file for details.
 
 ## Live Demo
 
