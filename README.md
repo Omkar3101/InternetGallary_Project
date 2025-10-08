@@ -27,6 +27,15 @@ A simple, responsive Internet Gallery built using only frontend technologies to 
 2. Open index.html in your browser.
 3. Search for media using the search bar, apply filters, and save favorites for preview.
 
+## License
+
+This project is licensed under the MIT License – see the LICENSE file for details.
+
 ## Live Demo
 
 https://internetgallaries.netlify.app/
+
+## Let Connect
+
+(Linkedin)[www.linkedin.com/in/omkar3101]
+
